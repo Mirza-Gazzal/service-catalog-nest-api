@@ -5,9 +5,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
+    OneToMany,
     Index,
 } from 'typeorm';
-
+import { ServiceVersionEntity } from '../../service-versions/entities/service-version.entity';
 
 /**
  * Represents a service offering within the system.
@@ -37,4 +38,7 @@ export class ServiceEntity {
     // soft delete flag (null = active)
     @DeleteDateColumn({ type: 'timestamptz', nullable: true })
     deletedAt?: Date | null;
+
+    @OneToMany(() => ServiceVersionEntity, (v) => v.service)
+    versions: ServiceVersionEntity[];
 }
