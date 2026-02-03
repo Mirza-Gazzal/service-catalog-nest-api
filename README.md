@@ -1,40 +1,71 @@
-<<<<<<< HEAD
+
 # service-catalog-nest-api
 This repository contains the backend API for the Service Catalog, built with NestJS. It provides endpoints to retrieve, filter, and paginate service data, including details and versions of each service. The API is designed  on top of PostgreSQL, using TypeORM and TypeScript.
 =======
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tech Stack
+* **Framework:** Next.js v9
+* **Node.js:** V20
+* **TypeORM:** v0.3.x (`@nestjs/typeorm@^9.0.1`)
+* **TypeScript**
+* **Database:** PostgreSQL (Docker)
 
-## Description
+---
+## Prerequisites
+- Node.js (LTS recommended)
+- Docker Desktop (running)
+ ---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
-
+## Installation (How to Run)
+1. **Clone the repository.**
 ```bash
+git clone <https://github.com/Mirza-Gazzal/service-catalog-nest-api.git>
+
+cd service-catalog-nest-api
+
+### 1) Install dependencies
 $ npm install
+
 ```
+## Database Management
+### 1. Start the Database
+The database runs as a Docker service. To start it alongside the app, run
+```bash
+$ docker-compose up -d
+
+#Verify container
+$ docker ps
+
+##Troubleshooting:
+
+“password authentication failed for user …”
+
+Most common causes:
+
+.env has a wrong connection string
+
+1- hidden whitespace in .env (Windows): fix by ensuring code uses trim()
+
+2- you’re connecting to the wrong Postgres instance (e.g., a local Windows Postgres service)
+
+3- Port conflict (5432 already used)
+  If another Postgres is running locally, change Docker host port:
+  ports: (In docker-compose.yml)
+  - "5433:5432"
+        then update:
+            DATABASE_URL=postgresql://app:app@localhost:5433/appdb
+
+#Confirm .env:
+DATABASE_URL=postgresql://app:app@localhost:5432/appdb
+
+Confirm Docker Postgres accepts credentials over TCP
+$ docker exec -e PGPASSWORD=app -it app-postgres psql -h localhost -U app -d appdb -c "SELECT 1;"
+
+
+````
+
 
 ## Running the app
 
@@ -42,7 +73,7 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
+# watch mode (when testing and code review use this commend)
 $ npm run start:dev
 
 # production mode
@@ -76,3 +107,27 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 >>>>>>> dd13b58 (core : bootstrap Nest v9 with swagger setup)
+> 
+> <p align="center">
+<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
+
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
+
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
