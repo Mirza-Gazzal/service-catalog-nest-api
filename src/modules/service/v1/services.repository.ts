@@ -1,35 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, IsNull } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ServiceEntity } from '../entities/service.entity';
+import { ServiceVersionEntity } from '../../service-versions/entities/service-version.entity';
 
 @Injectable()
-export class ServicesRepository {
+export class ServiceRepo {
     constructor(
         @InjectRepository(ServiceEntity)
         private readonly repo: Repository<ServiceEntity>,
     ) {}
 
-    // Simple proof query (hits DB)
-    async countActive(): Promise<number> {
-        return this.repo.count({
-            where: { deletedAt: IsNull() },
+    async createWithInitialVersion(input: {
+        name: string;
+        description?: string;
+        v1Description?: string;
+        v1Version?: string; // optional override (default 1.0.0)
+    }) {
+        const v1 = new ServiceVersionEntity();
+        v1.version = input.v1Version ?? '1.0.0';
+        v1.description = input.v1Description ?? 'Initial version';
+
+        const service = this.repo.create({
+            name: input.name,
+            description: input.description,
+            versions: [v1], // cascade insert will insert into service_versions
         });
+
+        return this.repo.save(service);
     }
 
-    // Create row
-    async createOne(data: { name: string; description?: string | null }) {
-        const entity = this.repo.create({
-            name: data.name,
-            description: data.description ?? null,
-        });
-        return this.repo.save(entity);
-    }
-
-    // Find by id (active only)
-    async findByIdActive(id: string) {
+    findById(id: string) {
         return this.repo.findOne({
-            where: { id, deletedAt: IsNull() },
+            where: { id },
+            relations: { versions: true },
+        });
+    }
+
+    findByName(name: string) {
+        return this.repo.findOne({
+            where: { name },
+            relations: { versions: true },
         });
     }
 }

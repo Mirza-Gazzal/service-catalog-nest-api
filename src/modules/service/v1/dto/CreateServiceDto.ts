@@ -1,22 +1,23 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { CollapseSpaces, Trim } from '../../../../system/common/transformers/string.transformers';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateServiceDto {
-    @CollapseSpaces()
     @IsString()
-    @MinLength(2)
     @MaxLength(120)
     name: string;
 
     @IsOptional()
-    @CollapseSpaces()
     @IsString()
-    @MaxLength(256)
     description?: string;
 
+    // description for v1
     @IsOptional()
-    @CollapseSpaces()
     @IsString()
     @MaxLength(256)
-    versionDescription?: string;
+    v1Description?: string;
+
+    // default "1.0.0" if not provided
+    @IsOptional()
+    @IsString()
+    @MaxLength(50)
+    v1Version?: string;
 }

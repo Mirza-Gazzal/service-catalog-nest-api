@@ -39,6 +39,6 @@ export class ServiceEntity {
     @DeleteDateColumn({ type: 'timestamptz', nullable: true })
     deletedAt?: Date | null;
 
-    @OneToMany(() => ServiceVersionEntity, (v) => v.service)
+    @OneToMany(() => ServiceVersionEntity, (v) => v.service,{ cascade: ['insert'] })
     versions: ServiceVersionEntity[];
 }
