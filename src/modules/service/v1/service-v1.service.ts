@@ -1,17 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { ServiceEntity } from '../entities/service.entity';
+import { ServicesRepository } from './services.repository';
 
 @Injectable()
 export class ServicesService {
-    constructor(
-        @InjectRepository(ServiceEntity)
-        private readonly repo: Repository<ServiceEntity>,
-    ) {}
+    constructor(private readonly servicesRepo: ServicesRepository) {}
 
     async dbSmokeTest() {
-        const count = await this.repo.count(); // real DB query
-        return { ok: true, servicesCount: count };
+        const count = await this.servicesRepo.countActive();
+        return { ok: true, activeServicesCount: count };
     }
 }
